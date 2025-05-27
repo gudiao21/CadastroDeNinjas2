@@ -22,6 +22,7 @@ public class NinjaModel { // É uma classe e não uma 'Entidade'!
 
     private String nome;
 
+    @Column(unique = true) // Torna o email bloqueado para repetições. Esta 'annotation' também é usado para CPF, RG, número de passaporte.
     private String email;
 
     private int idade;
