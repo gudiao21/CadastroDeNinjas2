@@ -15,12 +15,10 @@ public class MissoesModel {
 
     private String nome;
 
-    private int dificuldade;
+    private String dificuldade;
 
     // Seria uma missão para muitos ninjas
-    @OneToMany(mappedBy = "missoes")
-    private List<NinjaModel> ninjas;
-
-
+    @OneToMany(mappedBy = "missoes") // Aqui indica que a chave-estrangeira declarada em 'NinjaModel.java', na linha 25, será "missoes"(nome do campo criado) como declarado aqui. Normalmente, o 'mappedBy' é usado no lado do '@OneToMany', pois o lado do '@ManyToOne' nunca usa o 'mappedBy' por via de regra!
+    private List<NinjaModel> ninja;
 
 }
