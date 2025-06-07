@@ -2,14 +2,20 @@ package dev.java10x.CadastroDeNinja.Missoes;
 
 import dev.java10x.CadastroDeNinja.Ninjas.Controller.Service.NinjaModel;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
 @Table (name = "tb_Missoes")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class MissoesModel {
 
-    @id
+    @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 

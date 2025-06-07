@@ -11,3 +11,7 @@ public class CadastroDeNinjaApplication {
 	}
 
 }
+
+/*
+Este projeto é feito se baseando em Arquitetura por Camadas (Layered Architecture), pois divide o projeto por
+camadas, ou seja, por responsabilidades.*/
