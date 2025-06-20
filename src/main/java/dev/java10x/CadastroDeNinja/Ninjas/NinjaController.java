@@ -3,7 +3,7 @@ package dev.java10x.CadastroDeNinja.Ninjas;
 import org.springframework.web.bind.annotation.*;
 
 @RestController // é uma 'annotation' para identificar uma classe como uma controladora entre o 'usuário' e o 'BD', por exemplo.
-@RequestMapping // Trabalha junto com o '@RestController' para controladores, haja visto, que esta classe também mapeará rotas.
+@RequestMapping ("/ninjas")// Trabalha junto com o '@RestController' para controladores, haja visto, que esta classe também mapeará rotas.
 public class NinjaController {
 
     @GetMapping("/boasvindas") // Na verdade, ocultamente, o nome completo da rota será 'localhost:8080/BoasVindas', é um 'endpoint'
@@ -18,13 +18,13 @@ public class NinjaController {
     }
 
     // Mostrar todos os Ninjas (2 - READ)
-    @GetMapping("/todos")
+    @GetMapping("/listar")
     public String mostrarTodosOsNinjas() {
         return "Mostrar todo os ninjas";
     }
 
     // Mostrar Ninja por id (3 - READ)
-    @GetMapping("/todosID")
+    @GetMapping("/listarID")
     public String mostrarTodosOsNinjasPorID() {
         return "Mostrar Ninja por id";
     }
