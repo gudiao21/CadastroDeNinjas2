@@ -35,3 +35,5 @@ public class NinjaModel {
     @JoinColumn(name = "missoes_id") // Foreing Key ou chave estrangeira
     private MissoesModel missoes;
 }
+
+/*  Uma vez inicializado o seu banco de dados, este model não deve ser alterado, pois isso pode causar problemas na sua aplicação ou "conflito de banco de dados". Isto deverá ser feito apenas por "migrations"  */

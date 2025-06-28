@@ -1,5 +1,6 @@
 package dev.java10x.CadastroDeNinja.Missoes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.java10x.CadastroDeNinja.Ninjas.NinjaModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,7 +25,8 @@ public class MissoesModel {
     private String dificuldade;
 
     // Seria uma missão para muitos ninjas
-    @OneToMany(mappedBy = "missoes") // Aqui indica que a chave-estrangeira declarada em 'NinjaModel.java', na linha 29, será "missoes"(nome do campo criado) como declarado aqui. Normalmente, o 'mappedBy' é usado no lado do '@OneToMany', pois o lado do '@ManyToOne' nunca usa o 'mappedBy' por via de regra!
+    @OneToMany(mappedBy = "missoes") // Aqui indica que a chave-estrangeira declarada em 'NinjaModel.java', na linha 29, será "missoes" (nome do campo criado) como declarado aqui. Normalmente, o 'mappedBy' é usado no lado do '@OneToMany', pois o lado do '@ManyToOne' nunca usa o 'mappedBy' por via de regra!
+    @JsonIgnore // 'annotation' que Ignora a serialização em um 'loop de serialização' da lista de todos os ninjas que se refere a linha de código abaixo.
     private List<NinjaModel> ninja;
 
 }
