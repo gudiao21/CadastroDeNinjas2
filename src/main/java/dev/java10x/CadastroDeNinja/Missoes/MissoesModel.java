@@ -27,6 +27,6 @@ public class MissoesModel {
     // Seria uma missão para muitos ninjas
     @OneToMany(mappedBy = "missoes") // Aqui indica que a chave-estrangeira declarada em 'NinjaModel.java', na linha 29, será "missoes" (nome do campo criado) como declarado aqui. Normalmente, o 'mappedBy' é usado no lado do '@OneToMany', pois o lado do '@ManyToOne' nunca usa o 'mappedBy' por via de regra!
     @JsonIgnore // 'annotation' que Ignora a serialização em um 'loop de serialização' da lista de todos os ninjas que se refere a linha de código abaixo.
-    private List<NinjaModel> ninja;
+    private List<NinjaModel> ninjas;
 
 }
