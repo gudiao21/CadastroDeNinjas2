@@ -39,11 +39,9 @@ public class NinjaController {
     }
 
     // Mostrar Ninja por id (3 - READ)
-    @GetMapping("/listarID/{id}")
-    public ResponseEntity<NinjaModel> listarNinjaByID(@PathVariable Long id) {
-        return ninjaService.listarNinjaByID(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/listar/{id}") /* O '{id}' é chamado de 'path variable' */
+    public NinjaModel listarNinjasPorId(@PathVariable Long id) {
+        return ninjaService.listarNinjasPorId(id);
     }
 
    // Alterar dados dos Ninjas (4 - UPDATE)
