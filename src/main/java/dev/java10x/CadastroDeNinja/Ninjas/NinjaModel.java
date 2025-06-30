@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "tb_cadastro")
-@Data
+@Data // Vem direto do Lombok
 @NoArgsConstructor
 @AllArgsConstructor
 public class NinjaModel {
