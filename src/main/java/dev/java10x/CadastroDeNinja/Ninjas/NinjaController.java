@@ -3,13 +3,7 @@ package dev.java10x.CadastroDeNinja.Ninjas;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController // é uma 'annotation' para identificar que esta classe passa a ser um controller entre o 'usuário' e o 'BD', por exemplo.
 @RequestMapping ("/ninjas")// Trabalha junto com o '@RestController' para controladores, haja visto, que esta classe também mapeará rotas.
@@ -27,14 +21,14 @@ public class NinjaController {
     }
 
     // Adicionar Ninja (1 - CREATE)
-    @PostMapping("/criar")
-    public String criarNinja() {
-        return "Ninja criado";
+    @PostMapping("/criar") // O método POST é o contrário do GET, pois ele pega o registro em forma de Json, do usário, e serializa para o bd, exceto o id que é automático.
+    public NinjaModel criarNinja(@RequestBody NinjaModel Ninja) { // O '@RequestBody' é a annotation que pega um registro do usuário e o serializa para o bd, em Json.
+        return ninjaService.criarNinja(Ninja);
     }
 
     // Mostrar todos os Ninjas (2 - READ)
     @GetMapping("/listar")
-    public List<NinjaModel> listarNinjas() {
+    public List<NinjaModel> listarNinjas() { // O GET faz uma serialização do bd, em Json, para mostrar para o usuário
         return ninjaService.listarNinjas(); // Retorna a instância do meu serviço chamado 'ninjaService', que por sua vez acessa o método 'listarNinjas()'. O 'ninjaService.listarNinjas' é possível aqui porque fizemos a injeção de dependência na linha 11 e a criação do construtor (linha 13 a 15). Como o 'service está conectado ao 'repository', então por isto do acesso a query da JPA.
     }
 

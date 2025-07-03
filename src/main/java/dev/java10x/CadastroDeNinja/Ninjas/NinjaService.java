@@ -24,8 +24,11 @@ public class NinjaService { // Para o 'service' se comunicar com o 'repositório
         Optional<NinjaModel> ninjaPorId = ninjaRepository.findById(id); /* 'Optional' porque o 'id' do ninja pode existir ou não */
         return ninjaPorId.orElse(null);
     } /* Ex. de como é feita esta consulta(findById) no sql: "SELECT * FROM TB_CADASTRO WHERE id=2;", por exemplo. */
+
+    // Criar um novo ninja
+    public NinjaModel criarNinja(NinjaModel ninja) {
+        return ninjaRepository.save(ninja); /* = "INSERT INTO TB_CADASTRO (id, nome, email, idade, img_url, missoes_id, rank) VALUES ('Sakura Haruno', 'sakura@email.com', 15, 'https://url_da_imagem.com', ', 'Gennin');", no BD. */
+    }
 }
 
-/*
- 1) O Ato de se pegar do BD algo ou do nosso Model e levar para uma área externa é chamado de 'SERIALIZAÇÃO', em um padrão JSON (JavaScript Object Notation), por exemplo.
- */
+//  1) O Ato de se pegar do BD algo ou do nosso Model e levar para uma área externa é chamado de 'SERIALIZAÇÃO', em um padrão JSON (JavaScript Object Notation), por exemplo.
