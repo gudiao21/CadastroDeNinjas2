@@ -35,6 +35,15 @@ public class NinjaService { // Para o 'service' se comunicar com o 'repositório
     public void deletarNinjaPorId(Long id) {
         ninjaRepository.deleteById(id); // Chama a instância do 'ninjaRepository' para habilitar a deleção do ninja pelo método do JPA 'deleteById'.
     }
+
+    // Atualizar ninja
+    public NinjaModel atualizarNinja(Long id, NinjaModel ninjaAtualizado) {
+        if (ninjaRepository.existsById(id)) {
+            ninjaAtualizado.setId(id);
+            return ninjaRepository.save(ninjaAtualizado);
+        }
+        return null;
+    }
 }
 
 //  1) O Ato de se pegar do BD algo ou do nosso Model e levar para uma área externa é chamado de 'SERIALIZAÇÃO', em um padrão JSON (JavaScript Object Notation), por exemplo.

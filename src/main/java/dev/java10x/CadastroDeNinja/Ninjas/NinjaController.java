@@ -20,7 +20,7 @@ public class NinjaController {
         return "Essa é minha primeira mensagem nessa rota.";
     }
 
-    // Criar Ninja (1 - CREATE)
+    // Adicionar Ninja (1 - CREATE)
     @PostMapping("/criar") // O método POST é o contrário do GET, pois ele pega o registro em forma de Json, do usário, e DESERIALIZA para o bd, exceto o 'id' que é automático.
     public NinjaModel criarNinja(@RequestBody NinjaModel Ninja) { // O '@RequestBody' é a annotation que pega um registro do usuário e o DESERIALIZA para o BD, em Json (JavaScript object notation).
         return ninjaService.criarNinja(Ninja);
@@ -38,10 +38,11 @@ public class NinjaController {
         return ninjaService.listarNinjasPorId(id);
     }
 
-   // Alterar dados dos Ninjas (4 - UPDATE)
-    @PutMapping("/alterarID")
-    public String alterarNinjaPorId() {
-        return "Alterar Ninja por id";
+   // Alterar dados do Ninja (4 - UPDATE)
+    @PutMapping("/alterar/{id}") // O 'Put' é uma mistura do 'getbyid' com o 'Post'
+    public NinjaModel atualizarNinjaPorId(@PathVariable Long id, @RequestBody NinjaModel ninjaAtualizado) { // 'ninjaAtualizado' seria o corpo da requisição alterado pelo usuário.
+        return ninjaService.atualizarNinja(id, ninjaAtualizado);
+
     }
 
     // Deletar Ninja (5 - DELETE)
