@@ -36,13 +36,13 @@ public class NinjaService { // Para o 'service' se comunicar com o 'repositório
         ninjaRepository.deleteById(id); // Chama a instância do 'ninjaRepository' para habilitar a deleção do ninja pelo método do JPA 'deleteById'.
     }
 
-    // Atualizar ninja
-    public NinjaModel atualizarNinja(Long id, NinjaModel ninjaAtualizado) {
-        if (ninjaRepository.existsById(id)) {
-            ninjaAtualizado.setId(id);
-            return ninjaRepository.save(ninjaAtualizado);
+    // Atualizar ninja - É a junção do método 'getbyid' (para saber se o 'id' exite) para somente depois se utilizar do método 'Post'. Já o parâmetro 'NinjaModel ninjaAtualizado' passa o corpo da requisição em json que se quer alterar.
+    public NinjaModel atualizarNinja(Long id, NinjaModel ninjaAtualizado) { // O parâmetro 'Long id' é para informar qual 'id' se quer atualizar.
+        if (ninjaRepository.existsById(id)) { // Validação simples para saber se o 'id' informado existe entre uma lista que está salva em BD. Isto através do método pronto do JPA 'existById(id)'.
+            ninjaAtualizado.setId(id); // Atualiza o registro do 'id' recebido como parâmetro. Se o mesmo não existir, ele sai do 'if' e vai para o 'return' de fora do bloco 'return ninjaRepository.save(ninjaAtualizado);'.
+            return ninjaRepository.save(ninjaAtualizado); // Pega todo o 'ninjaAtualizado', que é o corpo da requisição em Json para ser guardado em BD através do método do JPA 'save'
         }
-        return null;
+        return null; // Será usado caso o 'id' que se quer atualizar não exista no BD.
     }
 }
 

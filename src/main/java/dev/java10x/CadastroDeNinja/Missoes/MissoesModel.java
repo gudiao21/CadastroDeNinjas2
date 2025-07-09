@@ -11,8 +11,8 @@ import java.util.List;
 
 @Entity
 @Table (name = "tb_Missoes")
-@Data
-@NoArgsConstructor
+@Data // annotation do Lombok
+@NoArgsConstructor // annotation do Lombok
 @AllArgsConstructor
 public class MissoesModel {
 

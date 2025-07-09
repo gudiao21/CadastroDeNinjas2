@@ -41,8 +41,7 @@ public class NinjaController {
    // Alterar dados do Ninja (4 - UPDATE)
     @PutMapping("/alterar/{id}") // O 'Put' é uma mistura do 'getbyid' com o 'Post'
     public NinjaModel atualizarNinjaPorId(@PathVariable Long id, @RequestBody NinjaModel ninjaAtualizado) { // 'ninjaAtualizado' seria o corpo da requisição alterado pelo usuário.
-        return ninjaService.atualizarNinja(id, ninjaAtualizado);
-
+        return ninjaService.atualizarNinja(id, ninjaAtualizado); // 'ninjaService' é a instância do meu 'service', aqui dentro do controller para que se possa ter acesso aos métodos do 'NinjaService.java' chamado 'atualizarNinja'.
     }
 
     // Deletar Ninja (5 - DELETE)
