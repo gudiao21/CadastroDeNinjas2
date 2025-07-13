@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "tb_cadastro")
-@Data // Vem direto do Lombok
+@Data // Vem direto do Lombok e disponibiliza os getters, setters
 @NoArgsConstructor
 @AllArgsConstructor
 public class NinjaModel {
@@ -26,6 +26,9 @@ public class NinjaModel {
 
     @Column (name = "img_url")
     private String imgUrl;
+
+    @Column (name = "rank") // Criado após ser gerado o 'NinjaDTO.java', que é uma 'cópia' sem responsabilidades e conexões com o BD.
+    private String rank;
 
     @Column (name = "idade")
     private int idade;
