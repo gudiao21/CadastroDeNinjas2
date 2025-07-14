@@ -22,8 +22,8 @@ public class NinjaController {
 
     // Adicionar Ninja (1 - CREATE)
     @PostMapping("/criar") // O método POST é o contrário do GET, pois ele pega o registro em forma de Json, do usário, e DESERIALIZA para o bd, exceto o 'id' que é automático.
-    public NinjaModel criarNinja(@RequestBody NinjaModel Ninja) { // O '@RequestBody' é a annotation que pega um registro do usuário e o DESERIALIZA para o BD, em Json (JavaScript object notation).
-        return ninjaService.criarNinja(Ninja);
+    public NinjaDTO criarNinja(@RequestBody NinjaDTO ninja) { // O '@RequestBody' é a annotation que pega um registro do usuário e o DESERIALIZA para o BD, em Json (JavaScript object notation). Não é mais "NinjaModel" e sim "NinjaDTO" para conferir mais camadas a aplicação proporcionando mais segurança. Esta mudança é recomendada depois de se fazer o "NinjaMapper.java".
+        return ninjaService.criarNinja(ninja);
     }
 
     // Mostrar TODOS os Ninjas (2 - READ)
