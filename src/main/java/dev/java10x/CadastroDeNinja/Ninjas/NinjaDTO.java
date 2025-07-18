@@ -20,10 +20,12 @@ public class NinjaDTO {
 
     private int idade;
 
-    private String rank;
+    private String rank; // Esta propriedade foi adicionada a migration V2 e primeiramente mencionada nesta linha e depois no "NinjaModel.java".
 
     private MissoesModel missoes;
 }
 
-// OBS: O 'DTO' serve para tirar a responsabilidade da nossa Entidade. Fazendo assim, o 'DTO' conversar com o 'Service' e não mais o "Model" com o "Servicce", pois o 'DTO' é, praticamente, uma cópia do meu 'Model'.
+// OBS: O 'DTO' serve para tirar a responsabilidade da nossa 'Entidade' (Model). Fazendo assim, o 'DTO' conversar com o 'Service' e não mais o "Model" com o "Servicce", pois o 'DTO' é, praticamente, uma cópia do meu 'Model'.
 // OBS2: O 'DTO", fazendo uma analogia, seria uma camada a mais de proteção em minha aplicação.
+// OBS3: O 'DTO' é, praticamente, uma cópia do meu 'Model', porém não tem acesso direto ao meu BD, se tornando assim mais seguro por ser uma abstração.
+// OBS4: O 'DTO' é literalmente a cópia do meu 'Model' sem as característica de 'entidade' como: algumas annotations (@Id, @Column, @Entity, @ManyToOne, ...).
