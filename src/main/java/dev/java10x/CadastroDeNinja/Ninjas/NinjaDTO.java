@@ -1,13 +1,13 @@
 package dev.java10x.CadastroDeNinja.Ninjas;
+
 import dev.java10x.CadastroDeNinja.Missoes.MissoesModel;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data // Vem do lombok para gerar os 'getters' e 'setters'.
 @AllArgsConstructor // Vem do 'lombok' para gerar ocultamente o 'AllArgsContructor'.
-@NoArgsConstructor // Vem do 'lombok' para gerar ocultamente (por debaixo dos panos) o 'NoArgsContructor'.
+@NoArgsConstructor // Vem do 'lombok' para gerar ocultamente (por debaixo dos panos) o 'NoArgsConstructor'.
 public class NinjaDTO {
 
     private long id;

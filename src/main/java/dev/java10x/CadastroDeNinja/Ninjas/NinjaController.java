@@ -28,10 +28,10 @@ public class NinjaController {
     // Mostrar TODOS os Ninjas (2 - READ)
     @GetMapping("/listar") // O GET faz uma serialização do BD, em Json, para mostrar para o usuário
     public List<NinjaDTO> listarNinjas() {
-        return ninjaService.listarNinjas(); // Retorna a instância do meu serviço chamado 'ninjaService', que por sua vez acessa o método 'listarNinjas()'. O 'ninjaService.listarNinjas' é possível aqui porque fizemos a injeção de dependência na linha 11 e a criação do construtor (linha 13 a 15). Como o 'service' está conectado ao 'repository', então por isto do acesso a query da JPA. "ninjaService" é a instância do serviço que foi injetada via construtor ou com @Autowired.
+        return ninjaService.listarNinjas(); // Retorna a instância do meu serviço chamado 'ninjaService', que por sua vez acessa o método 'listarNinjas()'. O 'ninjaService.listarNinjas' é possível aqui porque fizemos a injeção de dependência na linha 11 e a criação do construtor (linha 13 a 15). Como o 'service' está conectado ao 'repository', então por isto do acesso a query da JPA. "ninjaService" é a instância do serviço que foi injetada via construtor ou com @Autowired. Aqui, literalmente, ocorre a troca do DTO com o service.
     }
 
-    // Mostrar Ninja por id (3 - READ)
+    // Mostrar Ninja por id (2 - READ)
     @GetMapping("/listar/{id}") // O '{id}' é chamado de 'path variable'
     public NinjaDTO listarNinjasPorId(@PathVariable Long id) { // Uma vez passado o 'id', o mesmo vai fazer parte do Path por causa da annotation "@PathVariable".
         return ninjaService.listarNinjasPorId(id);

@@ -2,7 +2,7 @@ package dev.java10x.CadastroDeNinja.Ninjas;
 
 import org.springframework.stereotype.Component;
 
-//@Mapper -> 'annotation' que é responsável para fazer a correlação entre os atributos do 'DTO' e do 'Model' e vice-versa. É necessário baixar a sua dependência. Contudo, poderá ser feito manualmente como estamos fazendo neste caso deste arquivo que estamos.
+//@Mapper -> 'annotation' que é responsável por fazer a correlação entre os atributos do 'DTO' e do 'Model' e vice-versa. É necessário baixar a sua dependência. Contudo, poderá ser feito manualmente como estamos fazendo neste caso deste arquivo que estamos.
 @Component // "annotation" obrigatória no "Mapper".
 public class NinjaMapper {
     public NinjaModel map(NinjaDTO ninjaDTO) { // Como é uma etapa repetitiva, pode-se recorrer ao 'ChatGPT'. Mapeamento de uma entidade (Model) para um DTO.

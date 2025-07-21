@@ -11,9 +11,9 @@ import java.util.List;
 
 @Entity
 @Table (name = "tb_Missoes")
-@Data // annotation do Lombok
-@NoArgsConstructor // annotation do Lombok
-@AllArgsConstructor
+@Data // annotation do Lombok para gerar os 'getters' e 'setters'.
+@NoArgsConstructor // annotation do Lombok para gerar, ocultamente, o 'NoArgsContructor'.
+@AllArgsConstructor // annotation do Lombok para gerar, ocultamente, o 'AllArgsConstructor'.
 public class MissoesModel {
 
     @Id

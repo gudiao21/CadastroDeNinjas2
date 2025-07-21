@@ -12,16 +12,16 @@ public class NinjaService { // Para o 'service' se comunicar com o 'repositório
     private NinjaRepository ninjaRepository; // Injeta a dependência do meu repositório 'NinjaRepository.java', porque o repositório tem que se conectar com o meu BD. Então é aqui que a camada 'Service' se comunica com a camada 'Repository. O 'repository' (NinjaRepository.java) extends 'JpaRepository'.
     private NinjaMapper ninjaMapper; // Inicia uma instância do ninjamapper.
 
-    public NinjaService(NinjaRepository ninjaRepository, NinjaMapper ninjaMapper) { // Optamos pelo constructor, mas poderia ser pela annotation @Autowired, sendo um ou outro, sabendo que há algumas diferenças entre eles. Aqui a dependência da linha 10 deste arquivo é inicializada efetivamente, ou seja, através deste contrutor. Inicializar por contrutor é mais indicado, porém pode ser por 'annotation' também (menos indicado).
+    public NinjaService(NinjaRepository ninjaRepository, NinjaMapper ninjaMapper) { // Optamos por criar este constructor, mas poderia ser pela annotation '@Autowired', sendo um ou outro, sabendo que há algumas diferenças entre eles. Aqui a dependência da linha 10 deste arquivo é inicializada efetivamente, ou seja, através deste construtor. Inicializar por construtor é mais indicado, porém pode ser por 'annotation' também (menos indicado).
         this.ninjaRepository = ninjaRepository;
         this.ninjaMapper = ninjaMapper;
     }
 
     // Listar TODOS os meus ninjas (implementa a lógica para listar todos os ninjas)
     public List<NinjaDTO> listarNinjas() { // Este método é chamado lá no 'NinjaController', linha 31.
-        List<NinjaModel> ninjas =  ninjaRepository.findAll(); // Este método do repositório 'ninjaRepository' é possível graças à linha 10, onde 'Service' se comunica com 'Repository' que por sua vez se comunica com o BD. O 'findAll' é equivalente ao 'SELECT * FROM TB_CADASTRO' da query do BD, ou seja, o 'fndAll' seria uma 'query' em forma de método.
+        List<NinjaModel> ninjas =  ninjaRepository.findAll(); // Este método do repositório 'ninjaRepository' é possível graças à linha 12, onde 'Service' se comunica com 'Repository' que por sua vez se comunica com o BD. O 'findAll' é equivalente ao 'SELECT * FROM TB_CADASTRO' da query do BD, ou seja, o 'fndAll' seria uma 'query' em forma de método. Aqui, efetivamente, ocorre a consulta usando o Model.
         return ninjas.stream()
-            .map(ninjaMapper::map)// Para cada objeto NinjaModel que passa na esteira, ela chama o método map de um objeto chamado ninjaMapper. Esse ninjaMapper é uma classe que você criou (um Mapper/Converter) cuja única responsabilidade é saber como converter um NinjaModel em um NinjaDTO.
+            .map(ninjaMapper::map)// Para cada objeto NinjaModel que passa na esteira, ela chama o método map de um objeto chamado ninjaMapper. Esse ninjaMapper é uma classe que você criou (um Mapper/Converter) cuja única responsabilidade é saber como converter um NinjaModel em um NinjaDTO. Aqui, efetivamente, ocorre a conversão de cada NinjaModel em NinjaDTO. Veja que o Service lida com o Model internamente, mas retorna DTOs para o Controller.
             .collect(Collectors.toList()); //O método .collect() pega todos os itens que já foram processados na esteira (que agora são objetos NinjaDTO) e os agrupa em um "pacote final". Collectors.toList() especifica qual deve ser o formato desse pacote: uma nova List.
     } /* Ex. de como é feita esta consulta(findall) no sql: "SELECT * FROM TB_CADASTRO;", por exemplo. */
 
@@ -34,22 +34,22 @@ public class NinjaService { // Para o 'service' se comunicar com o 'repositório
     // Criar um novo ninja
     public NinjaDTO criarNinja(NinjaDTO ninjaDTO) {
         NinjaModel ninja = ninjaMapper.map(ninjaDTO); // Conversão DTO -> Model - Usa um mapper (classe separada, como NinjaMapper.java) para transformar o DTO em um objeto da entidade NinjaModel, que é a classe que o JPA usa para salvar no BD.
-        ninja = ninjaRepository.save(ninja); // = "INSERT INTO TB_CADASTRO (id, nome, email, idade, img_url, missoes_id, rank) VALUES ('Sakura Haruno', 'sakura@email.com', 15, 'https://url_da_imagem.com', ', 'Gennin');", no BD. Persiste o ninja no banco de dados usando o JpaRepository. O JPA retorna o objeto atualizado (com o id preenchido, por exemplo).
+        ninja = ninjaRepository.save(ninja); // = "INSERT INTO TB_CADASTRO (id, nome, email, idade, img_url, missoes_id, rank) VALUES ('Sakura Haruno', 'sakura@email.com', 15, 'https://url_da_imagem.com', ', 'Gennin');", no BD. Persiste o ninja no banco de dados usando o JpaRepository. O JPA retorna o objeto atualizado (com o 'id' preenchido, por exemplo).
         return ninjaMapper.map(ninja); // Converte "Model" para "DTO", ou seja, converte novamente o "NinjaModel" salvo para "NinjaDTO" e devolve como resposta para o controller.
     }
 
-    // Deletar Ninja - Tem que ser um método VOID
+    // Deletar Ninja - Tem que ser um método VOID. Aqui não é necessário passar a responsabilidade para o DTO, pois é o único função dentro do nosso 'service' que não depende do Model.
     public void deletarNinjaPorId(Long id) {
         ninjaRepository.deleteById(id); // Chama a instância do 'ninjaRepository' para habilitar a deleção do ninja pelo método do JPA 'deleteById'.
     }
 
     //Novo - Atualizar ninja
-    public NinjaDTO atualizarNinja(Long id, NinjaDTO ninjaDTO) {
+    public NinjaDTO atualizarNinja(Long id, NinjaDTO ninjaDTO) { // Aqui nós trocamos as 'NinjaModel' para 'NinjaDTO' para retirar toda e qualquer responsabilidade do 'Model'.
         Optional<NinjaModel> ninjaExistente = ninjaRepository.findById(id);
         if (ninjaExistente.isPresent()) {
             NinjaModel ninjaAtualizado = ninjaMapper.map(ninjaDTO);
-            ninjaAtualizado.setId(id);
-            NinjaModel ninjaSalvo = ninjaRepository.save(ninjaAtualizado);
+            ninjaAtualizado.setId(id);  // Sobrescreve o 'id' antigo para o novo.
+            NinjaModel ninjaSalvo = ninjaRepository.save(ninjaAtualizado); //Sobrescreve e atualiza os dados atualizados do ninja
             return ninjaMapper.map(ninjaSalvo);
         }
         return null;
@@ -65,4 +65,8 @@ public class NinjaService { // Para o 'service' se comunicar com o 'repositório
     //}
 }
 
-//  1) O Ato de se pegar do BD algo ou do nosso Model e levar para uma área externa é chamado de 'SERIALIZAÇÃO', em um padrão JSON (JavaScript Object Notation), por exemplo.
+//  OBS1: O Ato de se pegar do BD algo ou do nosso Model e levar para uma área externa é chamado de 'SERIALIZAÇÃO', em um padrão JSON (JavaScript Object Notation), por exemplo.
+//  OBS2: O Controller é a camada que expõe sua API ao mundo externo (navegador, frontend, outras APIs).
+//Portanto, só deve aceitar e retornar DTOs, nunca Model diretamente.
+//  OBS3: O Service pode usar o Model internamente,mas ele recebe e devolve DTOs para o Controller. Ele converte os DTOs recebidos para Models, e depois converte os Models de volta para DTOs ao retornar dados.
+// OBS4:
