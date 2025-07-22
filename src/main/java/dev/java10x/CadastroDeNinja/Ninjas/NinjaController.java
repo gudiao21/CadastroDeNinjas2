@@ -1,7 +1,6 @@
 package dev.java10x.CadastroDeNinja.Ninjas;
 
 import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,28 +20,27 @@ public class NinjaController {
     }
 
     // Adicionar Ninja (1 - CREATE)
-    @PostMapping("/criar") // O método POST é o contrário do GET, pois ele pega o registro em forma de Json, do usário, e DESERIALIZA para o bd, exceto o 'id' que é automático.
-    public NinjaModel criarNinja(@RequestBody NinjaModel Ninja) { // O '@RequestBody' é a annotation que pega um registro do usuário e o DESERIALIZA para o BD, em Json (JavaScript object notation).
-        return ninjaService.criarNinja(Ninja);
+    @PostMapping("/criar") // O método POST é o contrário do GET, pois ele pega o registro em forma de Json, do usário, e DESSERIALIZA(JSON -> Ojeto Java) para o bd, exceto o 'id' que é automático.
+    public NinjaDTO criarNinja(@RequestBody NinjaDTO ninja) { // O '@RequestBody' é a annotation que pega um registro do usuário e o DESERIALIZA para o BD, em Json (JavaScript object notation). Não é mais "NinjaModel" e sim "NinjaDTO" para conferir mais camadas a aplicação proporcionando mais segurança. Esta mudança é recomendada depois de se fazer o "NinjaMapper.java".
+        return ninjaService.criarNinja(ninja);
     }
 
     // Mostrar TODOS os Ninjas (2 - READ)
     @GetMapping("/listar") // O GET faz uma serialização do BD, em Json, para mostrar para o usuário
-    public List<NinjaModel> listarNinjas() {
-        return ninjaService.listarNinjas(); // Retorna a instância do meu serviço chamado 'ninjaService', que por sua vez acessa o método 'listarNinjas()'. O 'ninjaService.listarNinjas' é possível aqui porque fizemos a injeção de dependência na linha 11 e a criação do construtor (linha 13 a 15). Como o 'service' está conectado ao 'repository', então por isto do acesso a query da JPA. "ninjaService" é a instância do serviço que foi injetada via construtor ou com @Autowired.
+    public List<NinjaDTO> listarNinjas() {
+        return ninjaService.listarNinjas(); // Retorna a instância do meu serviço chamado 'ninjaService', que por sua vez acessa o método 'listarNinjas()'. O 'ninjaService.listarNinjas' é possível aqui porque fizemos a injeção de dependência na linha 11 e a criação do construtor (linha 13 a 15). Como o 'service' está conectado ao 'repository', então por isto do acesso a query da JPA. "ninjaService" é a instância do serviço que foi injetada via construtor ou com @Autowired. Aqui, literalmente, ocorre a troca do DTO com o service.
     }
 
-    // Mostrar Ninja por id (3 - READ)
+    // Mostrar Ninja por id (2 - READ)
     @GetMapping("/listar/{id}") // O '{id}' é chamado de 'path variable'
-    public NinjaModel listarNinjasPorId(@PathVariable Long id) { // Uma vez passado o 'id', o mesmo vai fazer parte do Path por causa da annotation "@PathVariable".
+    public NinjaDTO listarNinjasPorId(@PathVariable Long id) { // Uma vez passado o 'id', o mesmo vai fazer parte do Path por causa da annotation "@PathVariable".
         return ninjaService.listarNinjasPorId(id);
     }
 
    // Alterar dados do Ninja (4 - UPDATE)
     @PutMapping("/alterar/{id}") // O 'Put' é uma mistura do 'getbyid' com o 'Post'
-    public NinjaModel atualizarNinjaPorId(@PathVariable Long id, @RequestBody NinjaModel ninjaAtualizado) { // 'ninjaAtualizado' seria o corpo da requisição alterado pelo usuário.
-        return ninjaService.atualizarNinja(id, ninjaAtualizado);
-
+    public NinjaDTO atualizarNinjaPorId(@PathVariable Long id, @RequestBody NinjaDTO ninjaAtualizado) { // 'ninjaAtualizado' seria o corpo da requisição alterado pelo usuário.
+        return ninjaService.atualizarNinja(id, ninjaAtualizado); // 'ninjaService' é a instância do meu 'service', aqui dentro do controller para que se possa ter acesso aos métodos do 'NinjaService.java' chamado 'atualizarNinja'.
     }
 
     // Deletar Ninja (5 - DELETE)
