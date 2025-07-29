@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @Data // annotation do Lombok para gerar os 'getters' e 'setters'.
 @NoArgsConstructor // annotation do Lombok para gerar, ocultamente, o 'NoArgsContructor'.
 @AllArgsConstructor // annotation do Lombok para gerar, ocultamente, o 'AllArgsConstructor'.
+@ToString
 public class MissoesModel {
 
     @Id

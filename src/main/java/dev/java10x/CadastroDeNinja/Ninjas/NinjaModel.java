@@ -5,12 +5,14 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "tb_cadastro")
 @Data // Vem direto do Lombok e disponibiliza os getters, setters
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = "missoes") // Para não entrar em um loop de recursão.
 public class NinjaModel {
 
     @Id
