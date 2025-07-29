@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 @Service // Transforma esta classe em uma camada de 'serviço'
 public class NinjaService { // Para o 'service' se comunicar com o 'repositório' é preciso eu fazer a injeção de dependência (linha 12) e criação do construtor (linhas 14 a 16).
 
-    private NinjaRepository ninjaRepository; // Injeta a dependência do meu repositório 'NinjaRepository.java', porque o repositório tem que se conectar com o meu BD. Então é aqui que a camada 'Service' se comunica com a camada 'Repository. O 'repository' (NinjaRepository.java) extends 'JpaRepository'.
-    private NinjaMapper ninjaMapper; // Inicia uma instância do ninjamapper.
+    private final NinjaRepository ninjaRepository; // Injeta a dependência do meu repositório 'NinjaRepository.java', porque o repositório tem que se conectar com o meu BD. Então é aqui que a camada 'Service' se comunica com a camada 'Repository. O 'repository' (NinjaRepository.java) extends 'JpaRepository'.
+    private final NinjaMapper ninjaMapper; // Inicia uma instância do ninjamapper.
 
     public NinjaService(NinjaRepository ninjaRepository, NinjaMapper ninjaMapper) { // Optamos por criar este constructor, mas poderia ser pela annotation '@Autowired', sendo um ou outro, sabendo que há algumas diferenças entre eles. Aqui a dependência da linha 10 deste arquivo é inicializada efetivamente, ou seja, através deste construtor. Inicializar por construtor é mais indicado, porém pode ser por 'annotation' também (menos indicado).
         this.ninjaRepository = ninjaRepository;

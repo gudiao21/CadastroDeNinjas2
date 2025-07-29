@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping ("/ninjas")// Trabalha junto com o '@RestController' para controladores, haja vista, que esta classe também mapeará rotas.
 public class NinjaController {
 
-    private NinjaService ninjaService; // Faz a 'injeção de dependência' do 'ninjaService.java', que faz parte da camada de 'Service', ou seja, é aqui que ocorre a comunicação entre as camadas 'controller' e 'service'.
+    private final NinjaService ninjaService; // Faz a 'injeção de dependência' do 'ninjaService.java', que faz parte da camada de 'Service', ou seja, é aqui que ocorre a comunicação entre as camadas 'controller' e 'service'. É de boa prática a injeção de dependência ser 'final'.
 
     public NinjaController(NinjaService ninjaService) { // Inicialização do construtor para 'NinjaService'.
         this.ninjaService = ninjaService;
@@ -38,7 +38,7 @@ public class NinjaController {
                     .status(HttpStatus.NO_CONTENT)
                     .build(); // Sem conteúdo, sem body
         }
-        return ResponseEntity.ok(ninjas);
+        return ResponseEntity.ok(ninjas); // O 'Ok' é simplesmente o status code 200
     }
 
     // Mostrar Ninja por id (2 - READ)
@@ -46,7 +46,7 @@ public class NinjaController {
     public ResponseEntity<?> listarNinjasPorId(@PathVariable Long id) {
         NinjaDTO ninjaExistente = ninjaService.listarNinjasPorId(id);
             if (ninjaExistente != null) {
-            return ResponseEntity.ok(ninjaExistente);
+                return ResponseEntity.ok(ninjaExistente);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("O ninja de Id: " + id + ", NÃO foi encontrado ou NÃO exite no banco de dados!");
