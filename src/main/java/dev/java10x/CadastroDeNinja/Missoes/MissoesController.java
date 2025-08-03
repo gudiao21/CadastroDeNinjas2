@@ -1,5 +1,7 @@
 package dev.java10x.CadastroDeNinja.Missoes;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,31 +19,59 @@ public class MissoesController {
 
     // Adicionar missão (1 - CREATE)
     @PostMapping("/criar") // O 'localhost:8080' será implícito. DESCERIALIZAÇÃO, ou seja, o 'POST' faz uma serialização, mas inversa.
-    public MissoesDTO criarMissao(@RequestBody MissoesDTO missao) { // O '@RequestBody' é a annotation que pega um registro do usuário e o DESCERIALIZA para o BD, em Json.
-        return missoesService.criarMissao(missao); // Retorna a instância 'missoesService' para quem o chamou. O nome 'missao' é escolhido pelo dev.
+    public ResponseEntity<String> criarMissao(@RequestBody MissoesDTO missao) { // O '@RequestBody' é a annotation que pega um registro do usuário e o DESCERIALIZA para o BD, em Json.
+        MissoesDTO novaMissao = missoesService.criarMissao(missao);
+        return ResponseEntity.status(HttpStatus.CREATED) // Retorna para o SERVIDOR uma mensage,m de status code de criado.
+                .body("Missão " + novaMissao.getNome() + " com o ID: " + novaMissao.getId() + ", criado com sucesso: "); // Retorna para o USUÁRIO uma mensagem personalizada de registro criado.
     }
 
     // Mostrar TODAS as missões. SERIALIZAÇÃO (2 - READ)
     @GetMapping("/listar")
-    public List<MissoesDTO> listarMissoes() {
-        return missoesService.listarMissoes(); /* "missoesService" é a instância do serviço que foi injetada via construtor ou com @Autowired. */
+    public ResponseEntity<List<MissoesDTO>> listarMissoes() {
+        List<MissoesDTO> missoes = missoesService.listarMissoes();
+        if (missoes.isEmpty()) {
+            return ResponseEntity
+                    .status(HttpStatus.NO_CONTENT)
+                    .build(); // Sem conteúdo, sem body.
+        }
+        return ResponseEntity.ok(missoes); // O 'Ok" é simplesmente o status code 200
     }
 
     // Mostrar Missão por id (2 - READ)
     @GetMapping("/listar/{id}") /* O '{id}' é chamado de 'path variable' */
-    public MissoesDTO listarMissaoPorId(@PathVariable Long id) { // O '{id}' é chamado de 'path variable'
-        return missoesService.listarMissoesPorId(id);
+    public ResponseEntity<?> listarMissaoPorId(@PathVariable Long id) { // O '{id}' é chamado de 'path variable'
+        MissoesDTO missaoExistente = missoesService.listarMissoesPorId(id);
+        if (missaoExistente != null) {
+            return ResponseEntity.ok(missaoExistente);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("A missão de Id: " + id + ", NÂO foi encontrada ou NÂO existe no banco de dados!");
+        }
     }
 
     // Alterar dados da Missão (3 - UPDATE)
     @PutMapping("/alterar/{id}") // O '{id}' é chamado de 'path variable'.
-    public MissoesDTO atualizarMissaoPorId(@PathVariable Long id, @RequestBody MissoesDTO missaoAtualizada) {
-        return missoesService.atualizarMissao(id, missaoAtualizada);
+    public ResponseEntity<?> atualizarMissao(@PathVariable Long id, @RequestBody MissoesDTO missaoDTO) {
+        MissoesDTO missaoExistente = missoesService.listarMissoesPorId(id);
+
+        if (missaoExistente != null) {
+            MissoesDTO missaoAtualizada = missoesService.atualizarMissao(id, missaoDTO);
+            return ResponseEntity.ok(missaoExistente);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("A missão com id: " + id + ", NÃO foi encontrada ou NÃO existe no banco de dados!");
+            }
     }
 
     // Delete -- Manda uma requisição para Deletar uma missão (5 - DELETE)
     @DeleteMapping("/deletar/{id}") // Criando o 'endpoint' para deletar
-    public void deletarMissaoPorId(@PathVariable Long id) { // O método para deletar, sempre vai ser VOID.
-        missoesService.deletarMissaoPorId(id); // Se utiliza da instância "missoesService" para chamar o método 'deletarMissaoPorId'.
+    public ResponseEntity<String> deletarMissaoPorId(@PathVariable Long id) { // O método para deletar, sempre vai ser VOID.
+        if (missoesService.listarMissoesPorId(id) != null) {
+            missoesService.deletarMissaoPorId(id); // Deletar missao, pois a verificação já foi feita acima.
+            return ResponseEntity.ok( "Missão com o Id " + id + ", deletada com sucesso.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("A missão com o Id " + id + " NÃO encontrada!");
+        }
     }
 }
