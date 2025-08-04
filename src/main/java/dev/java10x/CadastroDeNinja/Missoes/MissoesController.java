@@ -11,7 +11,7 @@ import java.util.List;
 @RequestMapping("/missoes") // Annotation para mapear as minhas APIs, ou seja, as 'paths' após o 'localhost:8080'. "/missoes" adicionará "/missoes..." em todas as rotas abaixo, neste caso, como pode ser visto.
 public class MissoesController {
 
-    private MissoesService missoesService; // Faz a 'injeção de dependência' do 'missoesService.java', que faz parte da camada de 'Serviço', ou seja, aqui acorre a comunicação entre as camadas 'controller' e 'service' em uma Arquitetura de Camadas (Layered architecture).
+    private final MissoesService missoesService; // Faz a 'injeção de dependência' do 'missoesService.java', que faz parte da camada de 'Serviço', ou seja, aqui acorre a comunicação entre as camadas 'controller' e 'service' em uma Arquitetura de Camadas (Layered architecture). É importante as injeções de dependências serem 'final', aqui neste caso.
 
     public MissoesController(MissoesService missoesService) { // Inicialização do construtor para 'MissoesService'. Lembrando que "Injeção de dependência" entrega para uma classe os objetos que ela precisa, ao invés da própria classe criar ou buscar esse(s) objeto(s).
         this.missoesService = missoesService;

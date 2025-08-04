@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 @Service // Transforma esta classe em uma camada de 'serviço'
 public class MissoesService { // Para 'service se comunicar com o 'repositório' é preciso eu fazer a injeção de dependência e a criação do construtor.
 
-    private MissoesRepository missoesRepository; // Injeta a dependência do meu repositório 'MissoesRepository.java' no meu 'MissoesService.java'. É aqui que a camada 'Service' se comunica com a 'Repository'.
-    private MissoesMapper missoesMapper; // Inicia uma instância do missoesMapper.
+    private final MissoesRepository missoesRepository; // Injeta a dependência do meu repositório 'MissoesRepository.java' no meu 'MissoesService.java'. É aqui que a camada 'Service' se comunica com a 'Repository'. Aqui é importante ser 'final'
+    private final MissoesMapper missoesMapper; // Inicia uma instância do missoesMapper, sendo importante ser 'final'.
 
     public MissoesService(MissoesRepository missoesRepository, MissoesMapper missoesMapper) { // Optamos por criar este constructor, mas poderia ser pela annotation '@Autowired', sendo um ou outro, sabendo que há algumas diferenças entre eles. Aqui a dependência da linha 10 deste arquivo é inicializada efetivamente, ou seja, através deste contrutor. Inicializar por contrutor é mais indicado, porém pode ser por 'annotation' também (menos indicado).
         this.missoesRepository = missoesRepository;
@@ -39,12 +39,12 @@ public class MissoesService { // Para 'service se comunicar com o 'repositório'
         return missoesMapper.map(missao); /* = "INSERT INTO TB_MISSOES (id, nome, dificuldade) VALUE (1, "Naruto", "Fácil"). */
     }
 
-    // Deletar Missao - Tem que ser um método VOID
+    // Deletar Missao
     public void deletarMissaoPorId(Long id) {
         missoesRepository.deleteById(id); // = "DELETE FROM TB_MISSOES WHERE id = 2", por exemplo. Chama a instância do 'missoesRepository' para se utilizar do método JPA 'deleteById'.
     }
 
-    // Atualizar missão
+    // Novo - Atualizar missao
     public MissoesDTO atualizarMissao(Long id, MissoesDTO missoesDTO) {
         Optional<MissoesModel> missaoExistente = missoesRepository.findById(id);
         if (missaoExistente.isPresent()) {
