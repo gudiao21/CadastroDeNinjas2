@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Tabela de Missões</title>
+</head>
+<body> <!-- Tudo o que tem dentro do 'body' é o que vai ser renderizado para o usuário -->
+<h1>Lista de Missões</h1>
+<table>
+    <thead> <!-- 't' vem de 'thymeleaf' e 'thead' é para tag para se criar o cabeçalho -->
+        <tr> <!-- Cria as colunas de uma tabela -->
+            <th>ID</th> <!-- 'th' = 'table header' -->
+            <th>Nome</th>
+            <th>Dificuldade</th>
+        </tr>
+    </thead>
+    <tbody> <!-- tag para colocar o corpo da nossa tabela -->
+        <tr th:each = "missao: ${missoes}" >
+            <td th:text="${missao.id}"></td>
+            <td th:text="${missao.nome}"></td>
+            <td th:text="${missao.dificuldade}"></td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
