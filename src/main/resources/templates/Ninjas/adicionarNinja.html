@@ -76,7 +76,7 @@
 <h1>Adicionar Novo Ninja</h1>
 <div class="form-container">
     <div th:if="${mensagem}" class="mensagem" th:text="${mensagem}"></div>
-    <form th:action="@{/ninjas/ui/salvar}" th:object="${ninja}" method="post">
+    <form th:action="@{/ninjas/ui/salvar}" th:object="${ninja}" method="post"> <!-- 'th:action' é responsável por coletar dados do usuário (nome, e-mail, idade, etc.) e enviá-los para o backend para criar um novo ninja). -->
         <label for="nome">Nome:</label>
         <input type="text" id="nome" th:field="*{nome}" required />
 
@@ -98,3 +98,15 @@
 </div>
 </body>
 </html>
+
+<!-- O elemento <form>:
+
+Agrupa os campos de entrada (input, select, etc.),
+
+Define para onde os dados vão (th:action),
+
+Define como serão enviados (method="post"),
+
+Permite que o navegador envie tudo de uma vez quando o usuário clicar em submit.
+
+➡️ Ou seja, form é necessário quando a página envia dados para o servidor. -->

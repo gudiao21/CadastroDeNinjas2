@@ -108,3 +108,5 @@ public class NinjaController {
             }
     }
 }
+
+// O endereço para acesso às informações fornecidas pelo swagger no browser é: http://localhost:8080/swagger-ui/index.html#/
